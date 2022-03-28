@@ -16,7 +16,7 @@ import os
 # * * * * * * *
 def PortChecking(p1, p2):
     # Checking if the incoming parameter is a digit / integer.
-    if isinstance(p1, int) and isinstance(p1, int):
+    if (isinstance(p1, int) and isinstance(p1, int)) and (len(str(p1)) < 7 and len(str(p2)) < 7):
         # Grabbing a list of all connections
         ports = psutil.net_connections('inet')
         terminate_prog = []
