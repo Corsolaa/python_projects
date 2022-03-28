@@ -15,7 +15,7 @@ import os
 # * Exception: TypeError returned if input is not a digit / integer
 # * * * * * * *
 def PortChecking(p1, p2):
-    # Checking if the incoming parameter is a digit / integer
+    # Checking if the incoming parameter is a digit / integer.
     if (isinstance(p1, int) and isinstance(p1, int)) and (len(str(p1)) < 7 and len(str(p2)) < 7):
         # Grabbing a list of all connections
         ports = psutil.net_connections('inet')
