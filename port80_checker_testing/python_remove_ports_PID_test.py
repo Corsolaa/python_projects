@@ -10,16 +10,17 @@ import os.path
 
 sg.theme('Black')
 layout = [
-    [sg.Text("Which port numbers would you like to inspect?:")],
-    [sg.Text("     port 1:"), sg.Text("                  port 2:")],
-    [sg.InputText(size=(11, 1)), sg.Text("     "), sg.InputText(size=(11, 1))],
-    [sg.Text("                "), sg.Button('Listen')],
-    [sg.Multiline(size=(80, 8), disabled=True, key='textbox')],
-    [sg.Button("Exit"), sg.Button("Stop", disabled=True)]
+    [sg.Text("          Which port numbers would you like to inspect?:")],
+    [sg.Text("                         port 1:"), sg.Text("                  port 2:")],
+    [sg.Text("                "), sg.InputText(size=(11, 1)), sg.Text("     "), sg.InputText(size=(11, 1))],
+    [sg.Text("                                    "), sg.Button('Listen')],
+    [sg.Multiline(size=(50, 8), disabled=True, key='textbox')],
+    [sg.Button("Exit"), sg.Text("                       "), sg.Button("Terminate", disabled=True)]
 ]
-win = sg.Window("port reader", layout, size=(500, 300))
+win = sg.Window("port listener", layout, icon=r'.\python.ico',
+                size=(400, 300))
 ml_obj = win.find_element("textbox")
-yes_but = win.find_element("Stop")
+yes_but = win.find_element("Terminate")
 terminate_prog = []
 
 # * * * * * * *
@@ -68,7 +69,7 @@ while True:
             PortCheckingGui(value[0], value[1])
         else:
             ml_obj.update("Please input a digit of 6 characters!!!")
-    if event == "Stop":
+    if event == "Terminate":
         ml_obj.print("terminating listeners...\n")
         for prog in terminate_prog:
             # Giving system the kill task command with the name that inputted.
