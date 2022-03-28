@@ -7,7 +7,6 @@
 import psutil
 import os
 
-
 # * * * * * * *
 # * Why: checking if any application is using the ports of input
 # * Input: ports that you want to check
@@ -37,7 +36,7 @@ def PortChecking(p1, p2):
                     print(msg)
         # Checking if the program filtered something out
         if len(terminate_prog) == 0:
-            print("no process running on port 80 and 443...")
+            print("no process running on port " + str(p1) + " or " + str(p2) + "...")
         else:
             ProcessRemove(terminate_prog)
     else:
@@ -53,19 +52,22 @@ def PortChecking(p1, p2):
 def ProcessRemove(terminate_prog):
     # Checking if the incoming parameter is an array[].
     if isinstance(terminate_prog, list):
-        while True:
-            print("\n" + r"do you want to terminate the programs above /\ (y/n): ")
-            answer = input().lower()
-            if answer == "y":
-                for prog in terminate_prog:
-                    # Giving system the kill task command with the name that inputted.
-                    os.system("TASKKILL /F /IM " + prog)
-                break
-            elif answer == "n":
-                print("Probably working whit XAMPP are you hehe")
-                break
+        if len(terminate_prog) > 0:
+            while True:
+                print("\n" + r"do you want to terminate the programs above /\ (y/n): ")
+                answer = input().lower()
+                if answer == "y":
+                    for prog in terminate_prog:
+                        # Giving system the kill task command with the name that inputted.
+                        os.system("TASKKILL /F /IM " + prog)
+                    break
+                elif answer == "n":
+                    print("Probably working whit XAMPP are you hehe.")
+                    break
+                else:
+                    print("Please answer y(es) or n(o).")
     else:
         raise TypeError("Input needs to be an array[]")
 
-
+# unit test
 PortChecking(80, 443)
