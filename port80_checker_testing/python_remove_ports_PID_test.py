@@ -23,6 +23,7 @@ ml_obj = win.find_element("textbox")
 yes_but = win.find_element("Terminate")
 terminate_prog = []
 
+
 # * * * * * * *
 # * Why: checking if any application is using the ports of input
 # * Input: ports that you want to check
@@ -30,10 +31,8 @@ terminate_prog = []
 # * Exception: TypeError returned if input is not a digit / integer
 # * * * * * * *
 def PortCheckingGui(p1, p2):
-    # Checking if the incoming parameter is a digit / integer.
     # Grabbing a list of all connections
     ports = psutil.net_connections('inet')
-    # terminate_prog = []
     # Looping through every port
     for p in ports:
         (ip, port) = p.laddr
@@ -49,15 +48,14 @@ def PortCheckingGui(p1, p2):
                 # Giving non-duplicate names towards array
                 terminate_prog.append(process_info.name())
                 # Prints towards screen
-                ml_obj.update(msg + "\n")
+                ml_obj.print(msg + "\n")
     # Checking if the program filtered something out
     if len(terminate_prog) == 0:
         ml_obj.update("no process running on port " + str(p1) + " or " + str(p2) + "...")
     else:
         yes_but.update(disabled=False)
 
-# def testing(par1, par2):
-#     ml_obj.update("This is par1: " + str(par1) + " This is par2: " + str(par2))
+
 while True:
     event, value = win.read()
     if event == "Exit" or event == sg.WIN_CLOSED:
@@ -66,6 +64,7 @@ while True:
         if value[0].isdigit() and value[1].isdigit():
             value[0] = int(value[0])
             value[1] = int(value[1])
+            ml_obj.update('')
             PortCheckingGui(value[0], value[1])
         else:
             ml_obj.update("Please input a digit of 6 characters!!!")

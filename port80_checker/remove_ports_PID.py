@@ -7,6 +7,7 @@
 import psutil
 import os
 
+
 # * * * * * * *
 # * Why: checking if any application is using the ports of input
 # * Input: ports that you want to check
@@ -68,6 +69,7 @@ def ProcessRemove(terminate_prog):
                     print("Please answer y(es) or n(o).")
     else:
         raise TypeError("Input needs to be an array[]")
+
 
 # unit test
 PortChecking(80, 443)
