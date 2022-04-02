@@ -11,6 +11,7 @@
 # offline is 😉
 
 import os
+import json
 
 
 def start_program(ip_list):
@@ -22,5 +23,8 @@ def start_program(ip_list):
             print("Shit on: " + ip + " the ping is unsuccessful")
 
 
-test_array = ["google.com", "192.168.474.85"]
-start_program(test_array)
+data = json.load(open('read_out.json'))
+ip_array = []
+for ip in data["ip_addresses"]:
+    ip_array.append(ip)
+start_program(ip_array)
