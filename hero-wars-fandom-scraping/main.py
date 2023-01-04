@@ -1,14 +1,24 @@
+import json
+import operator
+
 import fandom
 
 
 def start():
     fandom.set_wiki("hero-wars")
     heroes_info = get_hero_info(get_hero_page_info())
-    create_heroes(heroes_info)
-
-
-def create_heroes(heroes_info):
-    print(heroes_info)
+    # heroes_info = [{'name': 'Chabba', 'role': ['Tank', 'Control'], 'faction': 'Way of Nature', 'main_stat': 'Strength',
+    #                 'attack_type': ['Physical', 'Pure'], 'arti_team_buff': 'Armor'},
+    #                {'name': 'Aurora', 'role': ['Tank'],
+    #                 'faction': 'Way of Nature', 'main_stat': 'Strength', 'attack_type': ['Magic'],
+    #                 'arti_team_buff': 'Dodge'},
+    #                {'name': 'Cleaver', 'role': ['Tank', 'Control'], 'faction': 'Way of Chaos', 'main_stat': 'Strength',
+    #                 'attack_type': ['Physical', 'Pure'], 'arti_team_buff': 'Armor'}]
+    for hero in heroes_info:
+        hero["skins"] = get_hero_skin_info(hero["name"], hero["main_stat"])
+        print(hero)
+    with open("hero.json", "w") as write_file:
+        json.dump(heroes_info, write_file)
 
 
 def get_hero_page_info():
@@ -54,14 +64,33 @@ def get_hero_info(hero_info):
              "main_stat": main_stat,
              "attack_type": attack_type,
              "arti_team_buff": arti_team_buff})
+    return_info.sort(key=operator.itemgetter("name"))
     return return_info
 
 
-# def getHeroInfo(hero_name):
-#     hero = fandom.page("Heroes/" + hero_name + "#Mobile")
-#     mobile_section = hero.html.split("aside")
-#     skin = mobile_section[3].split('title="Category:')[2]
-#     print(skin)
+def get_hero_skin_info(hero_name, main_stat):
+    skins = {}
+    skins_app = []
+    effects = []
+    hero = fandom.page("Heroes/" + hero_name.replace(" ", "_") + "#Mobile")
+
+    mobile_section = hero.html.split("aside")
+    mobile_index = 3
+    if hero_name == "Mushy and Shroom":
+        mobile_index = 1
+    skin_section = mobile_section[mobile_index].split('title="Skins/')
+    i = 2
+    while i < len(skin_section):
+        skins_app.append(skin_section[i].split(" ")[0])
+        effect_section = skin_section[i].split('right">')[1]
+        effects.append(effect_section.split("</td>")[0])
+        i += 1
+    x = 0
+    skins["Default"] = main_stat
+    while x < len(skins_app):
+        skins[skins_app[x]] = effects[x]
+        x += 1
+    return skins
 
 
 if __name__ == "__main__":
